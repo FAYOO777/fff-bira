@@ -12,8 +12,14 @@ case "${FFF_BIRA_ROLE:-${FAYOO_ROLE:-}}" in
   *)   fff_bira_type='UNSET'; fff_bira_type_color='#9096A0' ;;
 esac
 
+# Label text is independent of device type; only the type decides its color.
+fff_bira_label="${FFF_BIRA_LABEL:-$fff_bira_type}"
+if [[ -z "$fff_bira_label" || ${#fff_bira_label} -gt 24 ]]; then
+  fff_bira_label="$fff_bira_type"
+fi
+
 typeset -g FFF_BIRA_PREFIX='╭─'
-FFF_BIRA_PREFIX+="%F{${fff_bira_type_color}}[${fff_bira_type}]%f "
+FFF_BIRA_PREFIX+="%F{${fff_bira_type_color}}[${fff_bira_label}]%f "
 FFF_BIRA_PREFIX+='%(!.%F{#BF616A}.%F{#A3BE8C})%n%f'
 FFF_BIRA_PREFIX+='%F{#B9BEC7}@%f%F{#D8DEE9}%m%f '
 
